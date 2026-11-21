@@ -1,0 +1,17 @@
+{
+  "name": "confirmed-object-lab",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Replicated object sandbox: chunked, confirmed-state delta streaming with a tiny baseline budget and two recovery strategies.",
+  "scripts": {
+    "start": "node server/index.js",
+    "dev": "node --watch server/index.js",
+    "test": "node --test 'test/*.test.js'",
+    "verify": "node tools/verify.mjs",
+    "audit": "node tools/audit-run.mjs 900"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Confirmed Object Lab</title>
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<header>
+  <h1>Confirmed Object Lab</h1>
+  <div class="conn">
+    <span id="connDot" class="dot"></span>
+    <span id="connText">connecting</span>
+    <span class="sep">·</span>
+    <span id="sessionText">session -</span>
+    <button id="restart" title="Reconnect with a fresh client (empty world)">restart client</button>
+  </div>
+</header>
+
+<main>
+  <section class="stage">
+    <canvas id="scene" width="900" height="620"></canvas>
+    <div class="legend">
+      <span><i class="sw stationary"></i>stationary</span>
+      <span><i class="sw moving"></i>moving</span>
+      <span><i class="sw transient"></i>transient</span>
+      <span><i class="sw selected"></i>selected</span>
+    </div>
+    <div id="hover" class="hover">click an object to track it</div>
+  </section>
+
+  <aside class="panel">
+    <section class="card" id="trackCard">
+      <h2>Tracked object</h2>
+      <div id="trackEmpty" class="muted">No object selected. Click the field; moving objects (M..) change every tick.</div>
+      <div id="trackBody" hidden>
+        <div class="trackHead">
+          <strong id="trackLabel">-</strong>
+          <span id="trackKind" class="tag">-</span>
+        </div>
+        <table class="kv">
+          <tbody>
+            <tr><th>id</th><td id="tId">-</td></tr>
+            <tr><th>authority state</th><td id="tAuth">-</td></tr>
+            <tr><th>client state</th><td id="tClient">-</td></tr>
+            <tr><th>client raw levels</th><td id="tLevels" class="mono">-</td></tr>
+            <tr><th>authority digest</th><td id="tTruth" class="mono">-</td></tr>
+            <tr><th>match</th><td id="tSync">-</td></tr>
+          </tbody>
+        </table>
+        <h3>Client lifecycle</h3>
+        <ul id="trackLife" class="life"></ul>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Replication</h2>
+      <div class="grid2">
+        <div><span class="k">authority tick</span><b id="authTick">-</b></div>
+        <div><span class="k">client tick</span><b id="clientTick">-</b></div>
+        <div><span class="k">confirmed tick</span><b id="confTick">-</b></div>
+        <div><span class="k">frames in / sent</span><b id="frameCounts">-</b></div>
+        <div><span class="k">delta / checkpoint</span><b id="kindCounts">-</b></div>
+        <div><span class="k">bytes delivered</span><b id="byteCount">-</b></div>
+      </div>
+      <div id="decision" class="decision">-</div>
+    </section>
+
+    <section class="card">
+      <h2>Baselines &amp; budgets</h2>
+      <div class="bar">
+        <div class="barRow"><span>authority</span><div class="meter"><i id="srvBar"></i></div><b id="srvText">-</b></div>
+        <div class="barRow"><span>client</span><div class="meter"><i id="cliBar"></i></div><b id="cliText">-</b></div>
+        <div class="barRow"><span>buffer</span><div class="meter alt"><i id="bufBar"></i></div><b id="bufText">-</b></div>
+      </div>
+      <ul id="baselineList" class="ticks"></ul>
+    </section>
+
+    <section class="card">
+      <h2>Recovery log</h2>
+      <ol id="recoveryList" class="log"></ol>
+    </section>
+
+    <section class="card">
+      <h2>Link control</h2>
+      <label class="row"><input id="optReorder" type="checkbox" checked> reorder tiles</label>
+      <label class="row"><input id="optDrop" type="checkbox" checked> drop a middle tile every
+        <input id="dropEvery" class="num" type="number" min="2" max="30" value="5" style="width:3.4em"> frames</label>
+      <label class="row">delay <input id="optDelay" class="num" type="number" min="0" max="1200" step="10" value="60" style="width:4em"> ms
+        + jitter <input id="optJitter" class="num" type="number" min="0" max="600" step="10" value="40" style="width:4em"> ms</label>
+      <label class="row">slow ack <input id="optAckDelay" class="num" type="number" min="0" max="2000" step="50" value="200" style="width:4em"> ms</label>
+      <div class="row actions">
+        <button id="applyLink">apply</button>
+        <button id="forceCheckpoint">force checkpoint</button>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Verification</h2>
+      <div id="verifyState" class="muted">waiting for first install…</div>
+      <button id="runVerify">download offline audit</button>
+      <div id="verifySummary" class="tiny"></div>
+    </section>
+  </aside>
+</main>
+
+<footer>
+  <span id="statusLine" class="tiny">-</span>
+</footer>
+
+<script type="module" src="/app.js"></script>
+</body>
+</html>
